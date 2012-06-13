@@ -8,13 +8,6 @@
 // Please retain this copyright header in all versions of the software
 //////////////////////////////////////////////////////////////////////////////////
 
-// ..........................................
-// Mod 0.1
-// (c) 2012 por M. Martín Ochoa <http://ensamble.com.ar>
-// funcionalidades agregadas
-// - vertical (por ahora se invierten los radios.) Por defecto se mantiene horizonal.
-// ..........................................
-
 (function($) {
 
 	// START Reflection object.
