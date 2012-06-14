@@ -8,6 +8,13 @@
 // Please retain this copyright header in all versions of the software
 //////////////////////////////////////////////////////////////////////////////////
 
+// ..........................................
+// Mod 0.1
+// (c) 2012 por M. Martín Ochoa <http://ensamble.com.ar>
+// funcionalidades agregadas
+// - vertical (por ahora se invierten los radios.) Por defecto se mantiene horizonal.
+// ..........................................
+
 (function($) {
 
 	// START Reflection object.
@@ -54,19 +61,35 @@
 	// START Item object.
 	// A wrapper object for items within the carousel.
 	var	Item = function(imgIn, options)
-	{								
-		this.orgWidth = imgIn.width;			
-		this.orgHeight = imgIn.height;		
+	{
+		console.log('this '+$(imgIn).hasClass('cloudcarousel'));
+		console.log('imgIn '+imgIn);
+		
+		//imgIn = $(imgIn);
+		//console.log('imgIn '+imgIn);
+		if (options.img){
+			this.orgWidth = imgIn.width;			
+			this.orgHeight = imgIn.height;		
+		} else {
+			this.orgWidth = $(imgIn).width();			
+			this.orgHeight = $(imgIn).height();		
+		}
+		console.log ("w x h "+this.orgWidth+" "+this.orgHeight);
+		
 		this.image = imgIn;
 		this.reflection = null;					
+		if(options.img){
 		this.alt = imgIn.alt;
+		} else{
+		this.alt = '';
+		}
 		this.title = imgIn.title;
 		this.imageOK = false;		
 		this.options = options;				
 						
 		this.imageOK = true;	
 		
-		if (this.options.reflHeight > 0)
+		if (this.options.reflHeight > 0 && options.img == true )
 		{													
 			this.reflection = new Reflection(this.image, this.options.reflHeight, this.options.reflOpacity);					
 		}
@@ -262,13 +285,21 @@
 				if (item.imageOK)
 				{
 					var	img = item.image;
-					w = img.width = item.orgWidth * scale;					
-					h = img.height = item.orgHeight * scale;
+					if (options.img){
+						w = img.width = item.orgWidth * scale;					
+						h = img.height = item.orgHeight * scale;
+					} else {
+						/*
+						w = $(img).width( item.orgWidth * scale );
+						h = $(img).height( item.orgHeight * scale );
+						*/
+						$(img).css({'opacity':scale});
+					}
 					if(options.vertical){
-						img.style.top = x + px ;
+						img.style.top = x + px;
 						img.style.left = y + px;
 					} else {
-						img.style.left = x + px ;
+						img.style.left = x + px;
 						img.style.top = y + px;
 					}
 					img.style.zIndex = "" + (scale * 100)>>0;	// >>0 = Math.foor(). Firefox doesn't like fractional decimals in z-index.
@@ -276,9 +307,9 @@
 					{																										
 						reflHeight = options.reflHeight * scale;						
 						style = item.reflection.element.style;
-						if(option.vertical){
-							style.top = x + px;
-							style.left = y + h + options.reflGap * scale + px;
+						if(options.vertical){
+							style.top = x + h + options.reflGap * scale + px;
+							style.left = y + px;
 						} else {
 							style.left = x + px;
 							style.top = y + h + options.reflGap * scale + px;
@@ -316,16 +347,20 @@
 		this.checkImagesLoaded = function()
 		{
 			var	i;
+			console.log('chequeando images');
+			if(options.img==true){
 			for(i=0;i<images.length;i++) {
 				if ( (images[i].width === undefined) || ( (images[i].complete !== undefined) && (!images[i].complete)  ))
 				{
 					return;					
 				}				
 			}
+			}
 			for(i=0;i<images.length;i++) {				
 				 items.push( new Item( images[i], options ) );	
 				 $(images[i]).data('itemIndex',i);
 			}
+			console.log("ok images");
 			// If all images have valid widths and heights, we can stop checking.			
 			clearInterval(this.tt);
 			this.showFrontText();
@@ -359,7 +394,8 @@
 							   speed:0.2,
 							   mouseWheel: false,
 								 bringToFront: false,
-								 vertical: false
+								 vertical: false,
+								 img: true
 			},options );									
 			// Create a Controller for each carousel.		
 			$(this).data('cloudcarousel', new Controller( this, $('.cloudcarousel',$(this)), options) );

@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es" xml:lang="es">
+    <head>
+			<meta http-equiv=”Content-Type” content="text/html; charset=UTF-8" />
+      <title></title>
+    	<script content="text/javascript" type="text/javascript" src="jquery-1.7.2.min.js" ></script>
+    	<script content="text/javascript" type="text/javascript" src="jquery.mousewheel.min.js" ></script>
+    	<script content="text/javascript" type="text/javascript" src="cloud-carousel.js" ></script>
+			
+			<style>
+				div.cloudcarousel{
+					width: 100px;
+					height: 100px;
+					background-color:#DDD;
+					left:0;
+					top:0;
+					border:1px solid #000;
+				}
+			</style>
+    	<script content="text/javascript" type="text/javascript">
+    	// <![CDATA[
+    	$(document).ready(function(){
+    		$("#rueda").CloudCarousel({
+					xPos: 256,
+					yPos: 60,
+					minScale: 0.2,
+					xRadius: 250,
+					yRadius: 100,
+					reflOpacity: 0.5,
+					reflHeight: 0,
+					reflGap: -10,
+					buttonLeft: $("#left-but"),
+					buttonRight: $("#right-but"),
+					/*
+					altBox: $("#alt-text"),
+					titleBox: $("#title-text"),
+					*/
+					mouseWheel: true,
+					vertical: true,
+					img: false
+    		});
+    		$('.cloudcarousel').mouseover(function(){
+    			this.op = $(this).css('opacity');
+    			this.zindex = $(this).css('z-index');
+    			console.log('OVER this.op'+this.op);
+    			
+    			$(this).css({'opacity':'1'});
+    			$(this).css({'z-index':'1000'});
+    		});
+    		$('.cloudcarousel').mouseout(function(){
+	    		console.log('OUT this.op'+this.op);
+	    		$(this).css({'opacity': this.op });
+	    		$(this).css({'z-index': this.zindex });
+    		});
+    	});
+    	//]]>	
+    	</script>
+    </head>
+    <body>
+
+		<div id="rueda" style="width:512px; height:512px;background:#fff;overflow:scroll;">
+		<!--
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		<img class="cloudcarousel" src="1339638928_Globe2.png" />
+		-->
+		
+		<div class="cloudcarousel"><p>DIV</p></div>
+		<div class="cloudcarousel"><p>DIV</p></div>
+		<div class="cloudcarousel"><p>DIV</p></div>
+		<div class="cloudcarousel"><p>DIV</p></div>
+		<div class="cloudcarousel"><p>DIV</p></div>
+		<div class="cloudcarousel"><p>DIV</p></div>
+		
+		
+		</div>
+		
+		<!-- Define left and right buttons. -->
+		<input id="left-but"  type="button" value="Left" />
+		<input id="right-but" type="button" value="Right" />
+
+		<!-- Define elements to accept the alt and title text from the images. -->
+		<p id="title-text"></p>
+		<p id="alt-text"></p>
+
+
+    </body>
+</html>
